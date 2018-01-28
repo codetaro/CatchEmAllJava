@@ -93,6 +93,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 if (grantResults.length > 0 
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
+                } else {
+                    //
                 }
             }
         }
