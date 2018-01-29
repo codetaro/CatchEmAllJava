@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
+
     int mNumOfTabs;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
@@ -16,19 +17,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                MapFragment tab1 = new MapFragment();
-                return tab1;
+                return new MapFragment();
             case 1:
-                PokemonFragment tab2 = new PokemonFragment();
-                return tab2;
+                return new PokemonFragment();
             default:
                 return null;
         }
-    }
-
-    @Override
-    public int getCount() {
-        return mNumOfTabs;
     }
 
     @Override
@@ -41,5 +35,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public int getCount() {
+        return mNumOfTabs;
     }
 }

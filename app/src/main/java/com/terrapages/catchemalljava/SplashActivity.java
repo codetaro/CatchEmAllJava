@@ -3,17 +3,12 @@ package com.terrapages.catchemalljava;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.os.Handler;
-import java.util.logging.LogRecord;
-
-/**
- * Created by denni on 27/01/2018.
- */
 
 public class SplashActivity extends Activity {
 
     Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
