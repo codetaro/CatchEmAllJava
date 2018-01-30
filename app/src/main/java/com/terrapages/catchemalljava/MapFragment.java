@@ -97,8 +97,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     }
 
     private void initStreetView() {
-        mGoogleMap.setOnMapLongClickListener(this);
-
         mStreetViewPanoramaView.getStreetViewPanoramaAsync(new OnStreetViewPanoramaReadyCallback() {
             @Override
             public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
