@@ -6,8 +6,11 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -15,6 +18,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
+import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -25,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 
 import java.io.IOException;
 
@@ -42,6 +49,14 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private Location mCurrentLocation;
     private GoogleMap mGoogleMap;
 
+    private IndoorBuilding mIndoorBuilding;
+    private SeekBar mIndoorSelector;
+    private TextView mIndoorMinLevel;
+    private TextView mIndoorMaxLevel;
+
+    private StreetViewPanoramaView mStreetViewPanoramaView;
+    private StreetViewPanorama mPanorama;
+
     private final int[] MAP_TYPES = {
             GoogleMap.MAP_TYPE_SATELLITE,
             GoogleMap.MAP_TYPE_NORMAL,
@@ -49,6 +64,23 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             GoogleMap.MAP_TYPE_TERRAIN,
             GoogleMap.MAP_TYPE_NONE };
     private int curMapTypeIndex = 2;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup parent = (ViewGroup) super.onCreateView(inflater, container, savedInstanceState);
+        View overlay = inflater.inflate(R.layout.view_map_overlay, parent, false);
+
+        mIndoorSelector = (SeekBar) overlay.findViewById(R.id.indoor_level_selector);
+        mIndoorMinLevel = (TextView) overlay.findViewById(R.id.indoor_min_level);
+        mIndoorMaxLevel = (TextView) overlay.findViewById(R.id.indoor_max_level);
+
+        mStreetViewPanoramaView = (StreetViewPanoramaView) overlay.findViewById(R.id.street_view_panorama);
+        mStreetViewPanoramaView.onCreate(savedInstanceState);
+
+        parent.addView(overlay);
+
+        return parent;
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -64,6 +96,63 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         getMapAsync(this);
     }
 
+    private void initStreetView() {
+        mGoogleMap.setOnMapLongClickListener(this);
+
+        mStreetViewPanoramaView.getStreetViewPanoramaAsync(new OnStreetViewPanoramaReadyCallback() {
+            @Override
+            public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
+                mPanorama = streetViewPanorama;
+                showStreetView(new LatLng(40.7506, -73.9936));
+            }
+        });
+    }
+
+    private void showStreetView(LatLng latLng) {
+        if (mPanorama == null)
+            return;
+
+        StreetViewPanoramaCamera.Builder builder = new StreetViewPanoramaCamera.Builder(mPanorama.getPanoramaCamera());
+        builder.tilt(0.0f);
+        builder.zoom(0.0f);
+        builder.bearing(0.0f);
+        mPanorama.animateTo(builder.build(), 0);
+
+        mPanorama.setPosition(latLng, 300);
+        mPanorama.setStreetNamesEnabled(true);
+    }
+
+    private void initMapIndoorSelector() {
+        mIndoorSelector.setOnSeekBarChangeListener(this);
+
+        mGoogleMap.getUiSettings().setIndoorLevelPickerEnabled(false);
+        mGoogleMap.setOnIndoorStateChangeListener(this);
+    }
+
+    private void hideFloorLevelSelector() {
+        mIndoorSelector.setVisibility(View.GONE);
+        mIndoorMaxLevel.setVisibility(View.GONE);
+        mIndoorMinLevel.setVisibility(View.GONE);
+    }
+
+    private void showFloorLevelSelector() {
+        if (mIndoorBuilding == null)
+            return;
+
+        int numOfLevels = mIndoorBuilding.getLevels().size();
+
+        mIndoorSelector.setMax(numOfLevels - 1);
+
+        mIndoorMaxLevel.setText(mIndoorBuilding.getLevels().get(0).getShortName());
+        mIndoorMinLevel.setText(mIndoorBuilding.getLevels().get(numOfLevels - 1).getShortName());
+
+        mIndoorSelector.setProgress(mIndoorBuilding.getActiveLevelIndex());
+
+        mIndoorSelector.setVisibility(View.VISIBLE);
+        mIndoorMaxLevel.setVisibility(View.VISIBLE);
+        mIndoorMinLevel.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
@@ -72,6 +161,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         mGoogleMap.setOnMapLongClickListener(this);
         mGoogleMap.setOnInfoWindowClickListener(this);
         mGoogleMap.setOnMapClickListener(this);
+
+        initMapIndoorSelector();
+        hideFloorLevelSelector();
+        initStreetView();
     }
 
     private void initCamera(Location location) {
@@ -155,13 +248,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        MarkerOptions options = new MarkerOptions().position(latLng);
-        options.title(getAddressFromLatLng(latLng));
-
-        options.icon(BitmapDescriptorFactory.fromBitmap(
-                BitmapFactory.decodeResource(getResources(),
-                        R.mipmap.ic_launcher_round)));
-        mGoogleMap.addMarker(options);
+        showStreetView(latLng);
     }
 
     @Override
@@ -214,8 +301,12 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+        if (mIndoorBuilding == null)
+            return;
 
+        int numOfLevels = mIndoorBuilding.getLevels().size();
+        mIndoorBuilding.getLevels().get(numOfLevels - 1 - progress).activate();
     }
 
     @Override
@@ -230,7 +321,14 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     @Override
     public void onIndoorBuildingFocused() {
+        mIndoorBuilding = mGoogleMap.getFocusedBuilding();
 
+        if (mIndoorBuilding == null || mIndoorBuilding.getLevels() == null
+                || mIndoorBuilding.getLevels().size() <= 1) {
+            hideFloorLevelSelector();
+        } else {
+            showFloorLevelSelector();
+        }
     }
 
     @Override
