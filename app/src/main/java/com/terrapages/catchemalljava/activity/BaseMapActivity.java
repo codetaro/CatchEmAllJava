@@ -20,6 +20,7 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(getMapLayoutId());
         initMapIfNecessary();
     }
@@ -55,13 +56,13 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         return 12.0f;
     }
 
-    protected abstract void initMapSetting();
+    protected abstract void initMapSettings();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
-        initMapSetting();
+        initMapSettings();
         initCamera();
     }
 }

@@ -13,7 +13,7 @@ public class HeatMapActivity extends BaseMapActivity {
     private HeatmapTileProvider mProvider;
 
     @Override
-    protected void initMapSetting() {
+    protected void initMapSettings() {
         ArrayList<LatLng> locations = generateLocations();
         mProvider = new HeatmapTileProvider.Builder().data(locations).build();
         mProvider.setRadius(HeatmapTileProvider.DEFAULT_RADIUS);
