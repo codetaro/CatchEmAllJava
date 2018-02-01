@@ -20,8 +20,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(getMapLayoutId());
+
         initMapIfNecessary();
     }
 
@@ -39,6 +39,8 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
     }
 
+    protected abstract void initMapSettings();
+
     protected void initCamera() {
         CameraPosition position = CameraPosition.builder()
                 .target(mCenterLocation)
@@ -55,8 +57,6 @@ public abstract class BaseMapActivity extends AppCompatActivity implements OnMap
     protected float getInitialMapZoomLevel() {
         return 12.0f;
     }
-
-    protected abstract void initMapSettings();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

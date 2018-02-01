@@ -14,6 +14,7 @@ public class HeatMapActivity extends BaseMapActivity {
     @Override
     protected void initMapSettings() {
         ArrayList<LatLng> locations = generateLocations();
+
         mProvider = new HeatmapTileProvider.Builder().data(locations).build();
         mProvider.setRadius(HeatmapTileProvider.DEFAULT_RADIUS);
         mGoogleMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));

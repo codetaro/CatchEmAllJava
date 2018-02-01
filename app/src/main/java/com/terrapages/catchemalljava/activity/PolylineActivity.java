@@ -13,7 +13,6 @@ public class PolylineActivity extends BaseMapActivity {
     @Override
     protected void initMapSettings() {
         List<LatLng> decodedPath = PolyUtil.decode(polyline);
-
         mGoogleMap.addPolyline(new PolylineOptions().addAll(decodedPath));
     }
 }

@@ -21,6 +21,7 @@ public class UtilsListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         String[] items = getResources().getStringArray(R.array.list_items);
         adapter.addAll(new ArrayList(Arrays.asList(items)));
