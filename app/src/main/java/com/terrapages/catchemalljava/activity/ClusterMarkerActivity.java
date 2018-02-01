@@ -16,12 +16,6 @@ public class ClusterMarkerActivity extends BaseMapActivity {
         initMarkers();
     }
 
-    /*@Override
-    protected void initMapIfNecessary() {
-        super.initMapIfNecessary();
-        initMarkers();
-    }*/
-
     private void initMarkers() {
         ClusterManager<ClusterMarkerLocation> clusterManager = new ClusterManager<ClusterMarkerLocation>(this, mGoogleMap);
         mGoogleMap.setOnCameraChangeListener(clusterManager);

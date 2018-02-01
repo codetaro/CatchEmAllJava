@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.terrapages.catchemalljava.R;
 import com.terrapages.catchemalljava.activity.ClusterMarkerActivity;
 import com.terrapages.catchemalljava.activity.HeatMapActivity;
+import com.terrapages.catchemalljava.activity.PolylineActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,9 +37,7 @@ public class UtilsListFragment extends ListFragment {
         } else if (getString(R.string.item_heat_map).equalsIgnoreCase(item)) {
             startActivity(new Intent(getActivity(), HeatMapActivity.class));
         } else if (getString(R.string.item_polylines).equalsIgnoreCase(item)) {
-//            startActivity(new Intent(getActivity(), PolylineActivity.class));
-        } else if (getString(R.string.item_spherical_geometry).equalsIgnoreCase(item)) {
-//            startActivity(new Intent(getActivity(), SphericalGeometryActivity.class));
+            startActivity(new Intent(getActivity(), PolylineActivity.class));
         }
     }
 }

@@ -25,6 +25,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.HeatMapActivity" />
         <activity android:name=".activity.ClusterMarkerActivity" />
+        <activity android:name=".activity.PolylineActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
