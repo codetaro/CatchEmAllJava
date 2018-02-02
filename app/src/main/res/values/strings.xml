@@ -7,10 +7,12 @@
     <string name="item_clustering">Clustering</string>
     <string name="item_heat_map">Heat Map</string>
     <string name="item_polylines">Polyline Decoding</string>
+    <string name="item_spherical_geometry">Spherical Geometry Utils</string>
 
     <string-array name="list_items">
         <item>@string/item_clustering</item>
         <item>@string/item_heat_map</item>
         <item>@string/item_polylines</item>
+        <item>@string/item_spherical_geometry</item>
     </string-array>
 </resources>

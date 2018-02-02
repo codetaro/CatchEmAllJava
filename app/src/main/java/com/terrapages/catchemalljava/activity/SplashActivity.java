@@ -1,9 +1,11 @@
-package com.terrapages.catchemalljava;
+package com.terrapages.catchemalljava.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.terrapages.catchemalljava.R;
 
 public class SplashActivity extends Activity {
 

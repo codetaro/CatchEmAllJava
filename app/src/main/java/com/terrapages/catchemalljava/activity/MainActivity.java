@@ -1,10 +1,13 @@
-package com.terrapages.catchemalljava;
+package com.terrapages.catchemalljava.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.terrapages.catchemalljava.PagerAdapter;
+import com.terrapages.catchemalljava.R;
 
 public class MainActivity extends AppCompatActivity {
 

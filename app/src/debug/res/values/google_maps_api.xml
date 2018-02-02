@@ -4,7 +4,7 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=C5:3F:56:38:60:61:1E:DE:11:44:34:42:7A:0B:F1:67:2D:65:CC:DA%3Bcom.terrapages.catchemalljava
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=B8:B6:B1:EC:BC:A4:71:2C:68:F0:80:EC:E1:83:BB:7A:00:DD:8F:EE%3Bcom.terrapages.catchemalljava
 
     You can also add your credentials to an existing key, using these values:
 
@@ -20,8 +20,5 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <!--Home-->
-    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDRNvORtHksj63RDTSHQ2X9Yb2GaDlnEhE</string>-->
-    <!--Office-->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBe3R48LitOIxqVR5YWKDJ5hzAeXfsWMSs</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAfdF5JvtLQdzc61_poU__jTXAVi3ycy9E</string>
 </resources>

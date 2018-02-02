@@ -12,6 +12,7 @@ import com.terrapages.catchemalljava.R;
 import com.terrapages.catchemalljava.activity.ClusterMarkerActivity;
 import com.terrapages.catchemalljava.activity.HeatMapActivity;
 import com.terrapages.catchemalljava.activity.PolylineActivity;
+import com.terrapages.catchemalljava.activity.SphericalGeometryActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +40,8 @@ public class UtilsListFragment extends ListFragment {
             startActivity(new Intent(getActivity(), HeatMapActivity.class));
         } else if (getString(R.string.item_polylines).equalsIgnoreCase(item)) {
             startActivity(new Intent(getActivity(), PolylineActivity.class));
+        } else if (getString(R.string.item_spherical_geometry).equalsIgnoreCase(item)) {
+            startActivity(new Intent(getActivity(), SphericalGeometryActivity.class));
         }
     }
 }

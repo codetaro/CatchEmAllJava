@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.terrapages.catchemalljava.fragment.MapFragment;
+import com.terrapages.catchemalljava.fragment.PokemonFragment;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;

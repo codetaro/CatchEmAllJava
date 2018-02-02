@@ -1,4 +1,4 @@
-package com.terrapages.catchemalljava;
+package com.terrapages.catchemalljava.fragment;
 
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
+import com.terrapages.catchemalljava.R;
 
 import java.io.IOException;
 
