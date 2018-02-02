@@ -1,11 +1,13 @@
 package com.terrapages.catchemalljava.fragment;
 
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -35,6 +38,8 @@ import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.terrapages.catchemalljava.R;
 
 import java.io.IOException;
+
+import static android.content.ContentValues.TAG;
 
 public class MapFragment extends SupportMapFragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -64,21 +69,21 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             GoogleMap.MAP_TYPE_HYBRID,
             GoogleMap.MAP_TYPE_TERRAIN,
             GoogleMap.MAP_TYPE_NONE };
-    private int curMapTypeIndex = 2;
+    private int curMapTypeIndex = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup parent = (ViewGroup) super.onCreateView(inflater, container, savedInstanceState);
-        View overlay = inflater.inflate(R.layout.view_map_overlay, parent, false);
-
-        mIndoorSelector = (SeekBar) overlay.findViewById(R.id.indoor_level_selector);
-        mIndoorMinLevel = (TextView) overlay.findViewById(R.id.indoor_min_level);
-        mIndoorMaxLevel = (TextView) overlay.findViewById(R.id.indoor_max_level);
-
-        mStreetViewPanoramaView = (StreetViewPanoramaView) overlay.findViewById(R.id.street_view_panorama);
-        mStreetViewPanoramaView.onCreate(savedInstanceState);
-
-        parent.addView(overlay);
+//        View overlay = inflater.inflate(R.layout.view_map_overlay, parent, false);
+//
+//        mIndoorSelector = (SeekBar) overlay.findViewById(R.id.indoor_level_selector);
+//        mIndoorMinLevel = (TextView) overlay.findViewById(R.id.indoor_min_level);
+//        mIndoorMaxLevel = (TextView) overlay.findViewById(R.id.indoor_max_level);
+//
+//        mStreetViewPanoramaView = (StreetViewPanoramaView) overlay.findViewById(R.id.street_view_panorama);
+//        mStreetViewPanoramaView.onCreate(savedInstanceState);
+//
+//        parent.addView(overlay);
 
         return parent;
     }
@@ -161,9 +166,23 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         mGoogleMap.setOnInfoWindowClickListener(this);
         mGoogleMap.setOnMapClickListener(this);
 
-        initMapIndoorSelector();
-        hideFloorLevelSelector();
-        initStreetView();
+        styleMapFromRawResource();
+
+//        initMapIndoorSelector();
+//        hideFloorLevelSelector();
+//        initStreetView();
+    }
+
+    private void styleMapFromRawResource() {
+        try {
+            boolean success = mGoogleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.style_json));
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
     }
 
     private void initCamera(Location location) {
@@ -199,11 +218,11 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//        initCamera(mCurrentLocation);
-        Location location = new Location("Madison Square Garden");
-        location.setLatitude(40.7506);
-        location.setLongitude(-73.9936);
-        initCamera(location);
+        initCamera(mCurrentLocation);
+//        Location location = new Location("Madison Square Garden");
+//        location.setLatitude(40.7506);
+//        location.setLongitude(-73.9936);
+//        initCamera(location);
     }
 
     @Override
