@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.terrapages.catchemalljava.fragment.MapFragment;
-import com.terrapages.catchemalljava.fragment.PokemonFragment;
+import com.terrapages.catchemalljava.fragment.ListFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -22,7 +22,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new MapFragment();
             case 1:
-                return new PokemonFragment();
+                return new ListFragment();
             default:
                 return null;
         }

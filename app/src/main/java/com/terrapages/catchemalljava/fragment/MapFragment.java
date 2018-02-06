@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.terrapages.catchemalljava.R;
+import com.terrapages.catchemalljava.RetrievePokemonAsyncTask;
 
 import java.io.IOException;
 
@@ -223,6 +224,12 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 //        location.setLatitude(40.7506);
 //        location.setLongitude(-73.9936);
 //        initCamera(location);
+
+        RetrievePokemonAsyncTask retrievePokemonAsyncTask = new RetrievePokemonAsyncTask(
+                getActivity(),
+                mCurrentLocation,
+                mGoogleMap);
+        retrievePokemonAsyncTask.execute();
     }
 
     @Override
