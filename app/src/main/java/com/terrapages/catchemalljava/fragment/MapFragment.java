@@ -264,16 +264,16 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     @Override
     public void onMapClick(LatLng latLng) {
-        MarkerOptions options = new MarkerOptions().position(latLng);
-        options.title(getAddressFromLatLng(latLng));
-
-        options.icon(BitmapDescriptorFactory.defaultMarker());
-        mGoogleMap.addMarker(options);
+//        MarkerOptions options = new MarkerOptions().position(latLng);
+//        options.title(getAddressFromLatLng(latLng));
+//
+//        options.icon(BitmapDescriptorFactory.defaultMarker());
+//        mGoogleMap.addMarker(options);
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        showStreetView(latLng);
+//        showStreetView(latLng);
     }
 
     @Override

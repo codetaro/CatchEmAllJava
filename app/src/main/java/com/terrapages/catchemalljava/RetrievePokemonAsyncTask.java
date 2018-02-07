@@ -3,14 +3,18 @@ package com.terrapages.catchemalljava;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -70,7 +74,7 @@ public class RetrievePokemonAsyncTask extends AsyncTask<Void, Void, ArrayList<Po
         double lat;
         double lng;
         Marker pMarker;
-        PicassoMarker icon;
+        Target target;
         Random generator = new Random();
         for (Pokemon p : pokemons) {
             lat = generator.nextDouble() / 300;
@@ -84,9 +88,11 @@ public class RetrievePokemonAsyncTask extends AsyncTask<Void, Void, ArrayList<Po
             pMarker = mGoogleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(mCurrentLocation.getLatitude() + lat, mCurrentLocation.getLongitude() + lng))
                     .title(p.getName()));
-            icon = new PicassoMarker(pMarker);
-            Picasso.with(mContext).load(p.getSprites().getFrontDefault()).into(icon);
-            pMarker.setTag(p);
+            target = new PicassoMarker(pMarker);
+            Picasso.with(mContext).load(p.getSprites().getFrontDefault())
+                    .resize(192, 192)
+                    .into(target);
+            pMarker.setTag(target);  // way to keep target from garbage collection
         }
     }
 }
